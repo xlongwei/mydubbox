@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="mydubbox-provider" />
+	<dubbo:registry address="redis://127.0.0.1:6379" />
+	<dubbo:annotation package="com.xlongwei.archetypes.mydubbox.impl"/>
+	<dubbo:protocol name="rest" port="8080" server="tomcat" accepts="500" extension="com.xlongwei.archetypes.mydubbox.util.ValidationExceptionMapper" />
+	<dubbo:protocol name="dubbo" port="20880" serialization="fst"/>
+	<dubbo:protocol name="rmi" port="1099"/>
+	<dubbo:protocol name="webservice" port="8081"/>
+	<dubbo:protocol name="hessian" port="8083"/>
+	<dubbo:protocol name="http" port="8082"/>
+</beans>
