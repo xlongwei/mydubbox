@@ -1,28 +1,33 @@
-# mydubbo
-dubbo startup demo
+# mydubbox
+dubbox startup demo
 
-# build and config
+# build
+maven\conf\settings.xml
+```
+<mirror>
+    <id>m2repos</id>
+    <mirrorOf>*</mirrorOf>
+    <name>m2repos</name>
+	<url>http://nexus.xlongwei.com/content/groups/public/</url>
+</mirror>
+```
 > mvn install
-
-使用navicat创建数据库test，并依次导入dubbo-consumer\mysql\目录下的：1-table.sql，2-base.sql，3-data.sql
 
 # register
 redis
 
-# dubbo-provider
+# provider
 ```
-mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.dubbo.Provider#provide
+mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.mydubbox.Provider#provide
 ```
 
 > mvn assembly:directory
 > sh bin/startup.sh OR start.bat
 
-# dubbo-consumer
+# consumer
 ```
-mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.dubbo.facade.IdServiceTester
+mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.mydubbox.tester.UserServiceConsumer
 ```
-
 ```
-mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.dubbo.repository.UserRepositoryTester
+mvn test -Dmaven.test.skip=false -Dtest=com.xlongwei.archetypes.mydubbox.tester.UserServiceTester
 ```
-
