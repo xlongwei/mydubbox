@@ -72,7 +72,7 @@ public class UserServiceTester extends BaseTester {
 	}
 	
 	@Test public void webservice() throws Exception {
-		String wsdlUrl = "http://192.168.0.8:8081/com.xlongwei.archetypes.mydubbox.UserService?wsdl";
+		String wsdlUrl = "http://127.0.0.1:8081/com.xlongwei.archetypes.mydubbox.UserService?wsdl";
 		String nameSpaceUri = "http://mydubbox.archetypes.xlongwei.com/";
 		String serviceName = "UserService", portName = "UserServicePort";
 		
