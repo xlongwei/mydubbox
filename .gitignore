@@ -1,1 +1,8 @@
-/target
+bin
+build
+target
+*.classes
+.settings
+.classpath
+.project
+.gitignore
