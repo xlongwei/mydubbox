@@ -16,11 +16,14 @@ public class ValidationExceptionMapper extends RpcExceptionMapper {
 		return Response.status(Response.Status.OK).entity(Result.newFailure(-1, e.getMessage())).type(ContentType.APPLICATION_JSON_UTF_8).build();
 	}
 	protected Response handleConstraintViolationException(ConstraintViolationException cve) {
-    	StringBuilder err = new StringBuilder();
+        return Response.status(Response.Status.OK).entity(Result.newFailure(-1, toString(cve))).type(ContentType.APPLICATION_JSON_UTF_8).build();
+    }
+	public static String toString(ConstraintViolationException cve) {
+		StringBuilder err = new StringBuilder();
         for (ConstraintViolation<?> cv : cve.getConstraintViolations()) {
         	err.append(cv.getPropertyPath().toString());
         	err.append(cv.getMessage());
         }
-        return Response.status(Response.Status.OK).entity(Result.newFailure(-1, err.toString())).type(ContentType.APPLICATION_JSON_UTF_8).build();
-    }
+        return err.toString();
+	}
 }

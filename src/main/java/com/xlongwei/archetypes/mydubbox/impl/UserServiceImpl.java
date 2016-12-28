@@ -15,7 +15,7 @@ import com.xlongwei.archetypes.mydubbox.model.User;
 import com.xlongwei.archetypes.mydubbox.util.Result;
 
 @Path("user")
-@Service(validation="true")
+@Service(filter={"validationException"})
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class UserServiceImpl implements UserService {
