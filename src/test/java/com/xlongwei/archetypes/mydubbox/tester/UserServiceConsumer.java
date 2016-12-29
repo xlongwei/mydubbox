@@ -25,6 +25,8 @@ public class UserServiceConsumer extends BaseTester {
 		testProtocol("rmi", "1099");
 		testProtocol("webservice", "8081");
 		testProtocol("hessian", "8083");
+		//rest协议需要定义RsUserService这样的接口，必须在接口上使用JAX-RS注解@Path等，类似webservice可以单独定义接口
+//		testProtocol("rest", "8080");
 	}
 	
 	private void testProtocol(String protocol, String port) {
@@ -33,13 +35,13 @@ public class UserServiceConsumer extends BaseTester {
 	}
 	private void testService(UserService userService) {
 		logger.info(JSON.toJSONString(userService.getUser(1L)));
-//		logger.info(JSON.toJSONString(userService.getUser(0L)));
+		logger.info(JSON.toJSONString(userService.getUser(0L)));
 		
 		User user = new User();
-//		logger.info(JSON.toJSONString(userService.registerUser(user)));
+		logger.info(JSON.toJSONString(userService.registerUser(user)));
 		user.setName("testUser");
 		logger.info(JSON.toJSONString(userService.registerUser(user)));
-//		user.setName("te");
-//		logger.info(JSON.toJSONString(userService.registerUser(user)));
+		user.setName("te");
+		logger.info(JSON.toJSONString(userService.registerUser(user)));
 	}
 }

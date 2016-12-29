@@ -23,7 +23,7 @@ import com.alibaba.dubbo.validation.support.jvalidation.JValidation;
 public class ValidationExceptionFilter implements Filter {
     private Validation validation = new JValidation();
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    /** 数据校验失败时返回失败结果，打印校验失败信息，避免抛出大量异常到日志中 */
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         if (validation != null && ! invocation.getMethodName().startsWith("$")) {
             try {

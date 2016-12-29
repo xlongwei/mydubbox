@@ -3,9 +3,8 @@ package com.xlongwei.archetypes.mydubbox.tester;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,24 +12,30 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
+import com.xlongwei.archetypes.mydubbox.util.Result;
 
 public class BaseTester {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	private String url = "http://127.0.0.1:8080";
+	protected String url = "http://127.0.0.1:8080";
 	private Client client = ClientBuilder.newClient();//使用Client通过http请求时，可避免@Path等注解污染接口
-	
-	protected String get(String path) {
-		WebTarget target = client.target(url+path);
-		Response response = target.request(MediaType.APPLICATION_JSON).get();
-		return response.readEntity(String.class);
+	protected String method(String method, String path) {
+		return client.target(url+path).request(MediaType.APPLICATION_JSON).method(method).readEntity(String.class);
 	}
-	
-	protected <T> String post(String path, T entity) {
-		WebTarget target = client.target(url+path);
-		Response response = target.request().post(Entity.entity(entity, MediaType.APPLICATION_JSON_TYPE));
-		return response.readEntity(String.class);
+	/** 支持entity参数提交 */
+	protected <T> String entity(String method, String path, T entity) {
+		return client.target(url+path).request().method(method, Entity.json(entity)).readEntity(String.class);
 	}
-	
+	/** 支持对象和原始类型返回值 */
+	protected <T,E> T data(String method, String path, E entity, Class<T> data) {
+		Builder builder = client.target(url+path).request(MediaType.APPLICATION_JSON);
+		return entity==null ? builder.method(method, data) : builder.method(method, Entity.json(entity), data);
+	}
+	/** 支持Result类型返回值 */
+	@SuppressWarnings("unchecked")
+	protected <T,E> Result<T> result(String method, String path, E entity, Class<T> data) {
+		return data(method, path, entity, Result.class);
+	}
+	/** <dubbo:reference interface="com.xlongwei.archetypes.mydubbox.UserService" protocol="dubbo" /> */
 	protected <T> T refer(Class<T> clazz, String protocol, String port) {
 		ReferenceConfig<T> refer = new ReferenceConfig<>();
 		refer.setApplication(new ApplicationConfig("mydubbox-consumer"));

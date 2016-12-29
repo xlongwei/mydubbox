@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.protocol.rest.RpcExceptionMapper;
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
-
+/** rest协议使用了此扩展，但是其他协议还是需要在providers端校验参数，因此使用ValidationExceptionFilter返回失败结果避免大量数据校验异常日志 */
 public class ValidationExceptionMapper extends RpcExceptionMapper {
 	public Response toResponse(RpcException e) {
 		if (e.getCause() instanceof ConstraintViolationException) {
